@@ -396,6 +396,9 @@ int MqttSocket_Connect(MqttClient *client, const char* host, word16 port,
         #if !defined(WOLFMQTT_NO_TIMEOUT) && defined(WOLFMQTT_NONBLOCK)
             wolfSSL_set_using_nonblock(client->tls.ssl, 1);
         #endif
+
+            char alpn_list[] = "x-amzn-mqtt-ca";
+            rc = wolfSSL_UseALPN(client->tls.ssl, alpn_list, strlen(alpn_list), WOLFSSL_ALPN_CONTINUE_ON_MISMATCH);
         }
 
         if (client->ctx != NULL) {
